@@ -10,7 +10,8 @@
 # establish a connection to your copy of the database. 
 
 # Possibly helpful example code is found at:
-# https://wiki.inf.ed.ac.uk/twiki/pub/DatabaseGroup/TeachingPythonPostgreGuide/dbexample.py.txt
+# 
+
 
 import pgdb
 from sys import argv
@@ -131,12 +132,38 @@ class DBContext:
         """Removes tuples.
         Will query the user for the information required to identify a tuple.
         If the filter field is left blank, no filters will be used."""
-        pass
+        #pass
+
+        table = raw_input("Enter the table you wish to delete from: ")
+        column = raw_input("Enter the column that you wish to delete from: ")
+        value = raw_input("Enter the value of the the column: ")
+        try:
+            query = """DELETE FROM %s WHERE %s = %s;""" % (table, column, value)
+        except (NameError, ValueError, TypeError, SyntaxError):
+            print "  Bad input."
+            return
+        print(query)
+        self.cur.execute(query)
+        self.conn.commit()
 
     def insert(self):
         """inserts tuples.
         Will query the user for the information required to create tuples."""
-        pass    
+        #pass   
+
+        table = raw_input("Enter table you wish to insert into: ")
+        columns = raw_input("Enter the columns that you wish to add to separated by commas: ")
+        values = raw_input("Enter the values you wish to enter separated by commas: ")
+
+        try:
+            query = """INSERT INTO %s (%s) VALUES (%s);""" % (table, columns, values)
+        except (NameError, ValueError, TypeError, SyntaxError):
+            print "  Bad input."
+            return
+        print(query)
+        self.cur.execute(query)
+        self.conn.commit() 
+        
     def exit(self):    
         self.cur.close()
         self.conn.close()

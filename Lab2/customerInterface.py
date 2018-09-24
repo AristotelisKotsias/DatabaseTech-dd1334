@@ -72,35 +72,58 @@ class DBContext:
         # These input funtions are not correct so  exceptions caught and handled.
  
         # ID should be hard typed to an integer
-        #  So think that they can enter: 1 OR 1=1  
-        ID = raw_input("cutomerID: ")
+        #  So think that they can enter: 1 OR 1=1 
+        try: 
+            ID = int(raw_input("customerID: "))
+        except (NameError, ValueError, TypeError, SyntaxError):
+            print("Incorrect ID. Try again...")
+            return
+
         # These names inputs are terrible and allow injection attacks.
         #  So think that they can enter: Hilbert' OR 'a'='a  
-        fname= (raw_input("First Name: ").strip())
-        lname= raw_input("Last Name: ").strip()
+        fname= pgdb.escape_string(raw_input("First Name: ").strip())
+        lname= pgdb.escape_string(raw_input("Last Name: ").strip())
         # THIS IS NOT RIGHT YOU MUST FIGURE OUT WHAT QUERY MAKES SENSE
-        query ="SELECT something FROM somewhere WHERE something"
-        print query
-
+        query = "SELECT first_name, last_name FROM customers WHERE customer_id = %s;" % ID
 
         #NEED TO Catch excemptions ie bad queries  (ie there are pgdb.someError type errors codes)
-        self.cur.execute(query)
+        try:
+            print("Checking DB for given customer ID...")
+            self.cur.execute(query)
+        except (NameError,ValueError,TypeError,SyntaxError):
+            print("Query execution failed.")
+
         # NEED TO figure out how to get and test the output to see if the customer is in customers
         # test code here... 
         # HINT: in pyton lists are accessed from 0 that is mylist[0] is the first element
         # also a list of a list (such as the result of a query) has two indecies so starts with mylist[0][0]  
         # now the test is done
-        print "good name"
-        # THIS IS NOT RIGHT YOU MUST PRINT OUT a listing of shipment_id,ship_date,isbn,title for this customer
-        query ="SELECT something FROM somewhere WHERE conditions"
+        customer_list = self.cur.fetchone()
+        if customer_list is None:
+            print("Customer ID does not exist in DB")
+        else:
+            if customer_list[0] == fname and customer_list[1] == lname:
+                print("Welcome %s %s" % (fname,lname))
+            else:
+                print("Name %s %s does not match %s" % (fname,lname,ID))
+
+        #YOU MUST PRINT OUT a listing of shipment_id,ship_date,isbn,title for this customer
+        query = """SELECT shipment_id,ship_date,shipments.isbn,title
+                   FROM shipments
+                        JOIN editions ON shipments.isbn = editions.isbn
+                        JOIN books ON editions.book_id = books.book_id
+                    WHERE customer_id = %s; """ % ID   
        
         # YOU MUST CATCH EXCEPTIONS HERE AGAIN
-        self.cur.execute(query)
-        # Here the list should print for example:  
-        #    Customer 860 Tim Owens:
-        #    shipment_id,ship_date,isbn,title
-        #    510, 2001-08-14 16:33:47+02, 0823015505, Dynamic Anatomy
-        self.print_answer()
+        print("\n---------------------------------------------")
+        try:
+            self.cur.execute(query)
+            print("Customer: %d %s %s" % (ID,lname,fname))
+            print("shipment_id, ship_date, isbn, title")
+            self.print_answer()
+        except (NameError,ValueError,TypeError,SyntaxError):
+            print("Query execution failed.")
+        print("---------------------------------------------\n")
 
     def exit(self):    
         self.cur.close()
