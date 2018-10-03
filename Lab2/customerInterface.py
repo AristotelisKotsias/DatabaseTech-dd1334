@@ -1,9 +1,7 @@
 #!/usr/bin/python
+
 import pgdb
 from sys import argv
-#  Here you shall complete the code to allow a customer to use this interface to check his or her shipments.
-#  You will fill in the 'shipments' funtion 
-
 #  The code should not allow the customer to find out other customers or other booktown data.
 #  Security is taken as the customer knows his own customer_id, first and last names.  
 #  So not really so great but it illustrates how one would check a password if there were the addition of encription.
@@ -38,8 +36,6 @@ from sys import argv
 #
 #
 class DBContext:
-    """DBContext is a small interface to a database that simplifies SQL.
-    Each function gathers the minimal amount of information required and executes the query."""
 
     def __init__(self): #PG-connection setup
         print("AUTHORS NOTE: If you submit faulty information here, I am not responsible for the consequences.")
@@ -50,6 +46,7 @@ class DBContext:
         self.conn = pgdb.connect(**params)
         self.menu = ["Shipments Status", "Exit"]
         self.cur = self.conn.cursor()
+
     def print_menu(self):
         """Prints a menu of all functions this program offers.  Returns the numerical correspondant of the choice made."""
         for i,x in enumerate(self.menu):
@@ -57,8 +54,6 @@ class DBContext:
         return self.get_int()
 
     def get_int(self):
-        """Retrieves an integer from the user.
-        If the user fails to submit an integer, it will reprompt until an integer is submitted."""
         while True:
             try:
                 choice = int(input("Choose: "))
@@ -69,61 +64,59 @@ class DBContext:
                 print("That was not a number, genious.... :(")
  
     def shipments(self):
-        # These input funtions are not correct so  exceptions caught and handled.
- 
-        # ID should be hard typed to an integer
-        #  So think that they can enter: 1 OR 1=1 
+        #Test input is ID=671, fname='Chuck', lname='Brown'
         try: 
-            ID = int(raw_input("customerID: "))
+            #cast to int since ID is integer.
+            ID = int(raw_input("customerID: ")) 
         except (NameError, ValueError, TypeError, SyntaxError):
-            print("Incorrect ID. Try again...")
-            return
+            print("Non numerical ID. Try again...")
+            return;
+        
+        #Good against SQL injections attacks because escape characters are removed 
+        fname = pgdb.escape_string(raw_input("First Name: ").strip())  
+        lname = pgdb.escape_string(raw_input("Last Name: ").strip())    
 
-        # These names inputs are terrible and allow injection attacks.
-        #  So think that they can enter: Hilbert' OR 'a'='a  
-        fname= pgdb.escape_string(raw_input("First Name: ").strip())
-        lname= pgdb.escape_string(raw_input("Last Name: ").strip())
-        # THIS IS NOT RIGHT YOU MUST FIGURE OUT WHAT QUERY MAKES SENSE
         query = "SELECT first_name, last_name FROM customers WHERE customer_id = %s;" % ID
-
-        #NEED TO Catch excemptions ie bad queries  (ie there are pgdb.someError type errors codes)
+        print(query)
+        print("------------------------------------------------------------")
+        
         try:
-            print("Checking DB for given customer ID...")
             self.cur.execute(query)
         except (NameError,ValueError,TypeError,SyntaxError):
             print("Query execution failed.")
+            return
 
-        # NEED TO figure out how to get and test the output to see if the customer is in customers
-        # test code here... 
-        # HINT: in pyton lists are accessed from 0 that is mylist[0] is the first element
-        # also a list of a list (such as the result of a query) has two indecies so starts with mylist[0][0]  
-        # now the test is done
-        customer_list = self.cur.fetchone()
-        if customer_list is None:
-            print("Customer ID does not exist in DB")
+        #fetchone() retrieves one result row for the query that was executed.
+        #empty list (none) -> nothing was retrieved from the DB
+        customer_list = self.cur.fetchone() 
+        if customer_list is None:           
+            print("Customer does not exist in DB")
+            return
         else:
-            if customer_list[0] == fname and customer_list[1] == lname:
+            if customer_list[0].lower() == fname.lower() and customer_list[1].lower() == lname.lower():
                 print("Welcome %s %s" % (fname,lname))
             else:
-                print("Name %s %s does not match %s" % (fname,lname,ID))
+                print("Name %s %s does not match %s" % (fname,lname,ID)) #ID exists but first name or/and last name are incorrect
+                return
 
-        #YOU MUST PRINT OUT a listing of shipment_id,ship_date,isbn,title for this customer
-        query = """SELECT shipment_id,ship_date,shipments.isbn,title
-                   FROM shipments
+        #isbn alone is ambigous because it's a primary key to 2 tables (stock,shipments)
+        #and for that reason it must be specified on which table the SQL should check
+        query = """SELECT shipment_id,ship_date,shipments.isbn,title          
+                   FROM Shipments                                   
                         JOIN editions ON shipments.isbn = editions.isbn
                         JOIN books ON editions.book_id = books.book_id
                     WHERE customer_id = %s; """ % ID   
-       
-        # YOU MUST CATCH EXCEPTIONS HERE AGAIN
-        print("\n---------------------------------------------")
+
+        print("------------------------------------------------------------")
         try:
             self.cur.execute(query)
-            print("Customer: %d %s %s" % (ID,lname,fname))
+            print("Customer: %d | %s | %s" % (ID,fname,lname))
             print("shipment_id, ship_date, isbn, title")
             self.print_answer()
         except (NameError,ValueError,TypeError,SyntaxError):
             print("Query execution failed.")
-        print("---------------------------------------------\n")
+            return
+        print("------------------------------------------------------------\n")
 
     def exit(self):    
         self.cur.close()

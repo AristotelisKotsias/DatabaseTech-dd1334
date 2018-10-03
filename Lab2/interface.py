@@ -1,60 +1,35 @@
 #!/usr/bin/python
 
-# Lines that start as this one does are comments and have no effect on
-# the execution of the program.  (Most added by John Folkesson to help
-# understand the code.)
-
 # When you import the pgdb  module, all the
 # classes and functions in that module become available for you to
 # use.  For example you can now use the pgdb.connect() function to
 # establish a connection to your copy of the database. 
 
-# Possibly helpful example code is found at:
-# 
-
-
 import pgdb
 from sys import argv
 
-# we define a class that we will use in our main program
 class DBContext:
-    """DBContext is a small interface to a database that simplifies SQL.
-    Each function gathers the minimal amount of information required and executes the query."""
 
-# we first define the class, its definitions, functions attributes,
-# members ... what ever you like to call this stuff.  Then way down at
-# the bottom of this file we will create on of these.
-# this __init___ operation is automatically called when the object is created.
-
-    def __init__(self): #PG-connection setup
+    def __init__(self): 
         print("AUTHORS NOTE: If you submit faulty information here, I am not responsible for the consequences.")
 
-# we need to call the connect function with the right parameters some
-# of wheich we 'hard code here such as the host, wnd others we call
-# the built in python function raw_input to get from the user.  All are stored in a variable that we chose to call params.
         params = {'host':'nestor2.csc.kth.se', 'user':raw_input("Username: "), 'database':raw_input("Database: "), 'password':raw_input("Password: ")}
         self.conn = pgdb.connect(**params)
-        # Here we create an attribute of our class (DBContex) called
-        # menu as a list of strings.
         self.menu = ["Select.", "Insert.", "Remove.", "Exit"]
         # Here we create a cursor (see chap 9) and
         # http://www.python.org/dev/peps/pep-0249/
         self.cur = self.conn.cursor()
 
-# Here we define a member function that we can later call repeatidly
     def print_menu(self):
         """Prints a menu of all functions this program offers.  Returns the numerical correspondant of the choice made."""
         for i,x in enumerate(self.menu):
             print("%i. %s"%(i+1,x))
-            # this get_int function is defined below
         return self.get_int()
 
     def get_int(self):
         """Retrieves an integer from the user.
         If the user fails to submit an integer, it will reprompt until an integer is submitted."""
         while True:
-            # we go round here untill we get to return (ie while True)
-
           #  The try statement works as follows.  First, the try
           #  clause (the statement(s) between the try and except
           #  keywords) is executed. If no exception occurs, the except
@@ -70,7 +45,6 @@ class DBContext:
           #  exception and execution stops with a message as shown
           #  above.
             try:
-                # an Error here (ie wrong input type) jumps to except
                 choice = int(input("Choose: "))
                 if 1 <= choice <= len(self.menu):
                     return choice
@@ -125,44 +99,50 @@ class DBContext:
         # Here we do the select query at the cursor
         # No errors are caught so this crashes horribly on malformed queries
         self.cur.execute(query)       
-        # This function is defined below
         self.print_answer()
-        #OK now you do the next two:
-    def remove(self):
-        """Removes tuples.
-        Will query the user for the information required to identify a tuple.
-        If the filter field is left blank, no filters will be used."""
-        #pass
 
-        table = raw_input("Enter the table you wish to delete from: ")
-        column = raw_input("Enter the column that you wish to delete from: ")
-        value = raw_input("Enter the value of the the column: ")
+    def remove(self):
+        table = raw_input("\nTable to delete: ")
+        column = raw_input("Column to delete: ")
+        value = raw_input("Value of column to delete: ")
         try:
-            query = """DELETE FROM %s WHERE %s = %s;""" % (table, column, value)
+            query = "DELETE FROM %s WHERE %s = %s;"% (table, column, value)
         except (NameError, ValueError, TypeError, SyntaxError):
             print "  Bad input."
             return
         print(query)
         self.cur.execute(query)
+        #Commit to confirm any changes
         self.conn.commit()
 
-    def insert(self):
-        """inserts tuples.
-        Will query the user for the information required to create tuples."""
-        #pass   
+        #Print table to confirm the update
+        query = "SELECT * FROM %s;"% (table)
+        self.cur.execute(query)
+        print("\n--------------------------------------")        
+        self.print_answer_new()
+        print("----------------------------------------")  
 
-        table = raw_input("Enter table you wish to insert into: ")
+    def insert(self):
+        table = raw_input("\nEnter table you wish to insert into: ")
         columns = raw_input("Enter the columns that you wish to add to separated by commas: ")
         values = raw_input("Enter the values you wish to enter separated by commas: ")
 
         try:
-            query = """INSERT INTO %s (%s) VALUES (%s);""" % (table, columns, values)
+            query = "INSERT INTO %s (%s) VALUES (%s);" % (table, columns, values)
         except (NameError, ValueError, TypeError, SyntaxError):
             print "  Bad input."
             return
+            
         print(query)
         self.cur.execute(query)
         self.conn.commit() 
+
+        #Confirm the update in the table
+        query = "SELECT * FROM %s;"% (table)
+        self.cur.execute(query)
+        print("\n--------------------------------------")        
+        self.print_answer_new()
+        print("----------------------------------------")  
         
     def exit(self):    
         self.cur.close()
@@ -170,8 +150,11 @@ class DBContext:
         exit()
     
     def print_answer(self):
-# We print all the stuff that was just fetched.
+    # We print all the stuff that was just fetched.
             print("\n".join([", ".join([str(a) for a in x]) for x in self.cur.fetchall()]))
+
+    def print_answer_new(self):
+            print("\n".join([" | ".join([str(a) for a in x]) for x in self.cur.fetchall()]))
 
     # we call this below in the main function.
     def run(self):
@@ -190,7 +173,7 @@ class DBContext:
 # if somehow the index into actions is wrong we just loop back
                 print("Bad choice")
 
-# This strange looking line is what kicks it all off.  So python reads until it sees this then starts executing what comes after-
+#Python reads until it sees this then starts executing what comes after
 if __name__ == "__main__":
     db = DBContext()
     db.run()
