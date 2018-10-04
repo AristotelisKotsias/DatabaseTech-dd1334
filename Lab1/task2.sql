@@ -1,5 +1,5 @@
 
-\echo *** Task 2.1 *** \echo
+\echo *** Task 2.1 *** 
 
 CREATE VIEW isbn_and_title AS
   SELECT isbn, title
@@ -16,7 +16,7 @@ VALUES ('5555', 12345, 1, 59, '2012-12-02');
   DETAIL: Key (book_id)=(12345) is not present in table "books".
   COMMENT: book_id must exist in books, before an editions of this book can be inserted*/
 
-\echo *** Task 2.3 *** \echo
+\echo *** Task 2.3 *** 
 
 INSERT INTO editions(isbn)
 VALUES ('5555');
@@ -25,7 +25,7 @@ VALUES ('5555');
   DETAIL: Failing row contains (5555, null, null, null, null).
   COMMENT: from create.sql it is stated that book_id and edition cannot be NULL*/
 
-\echo *** Task 2.4 *** \echo
+\echo *** Task 2.4 *** 
 
 INSERT INTO books(book_id,title)
 VALUES (12345, 'How I Insert');
@@ -36,7 +36,7 @@ FROM books;
 
 /*Author and subject can be NULL*/
 
-\echo *** Task 2.5 *** \echo
+\echo *** Task 2.5 *** 
 /*SELECT *
 FROM subjects;*/
 
@@ -47,7 +47,7 @@ WHERE book_id = 12345;
 /*SELECT *
 FROM subjects;*/
 
-\echo *** Task 2.6 *** \echo
+\echo *** Task 2.6 *** 
 
 DELETE FROM books
 WHERE book_id = 12345;
@@ -56,7 +56,7 @@ WHERE book_id = 12345;
   DETAIL: Key (book_id)=(12345) is still referenced from table "editions".
   COMMENT: book_id still exists in "editions" table, it has to be deleted in the right order from both tables*/
 
-\echo *** Task 2.7 *** \echo
+\echo *** Task 2.7 *** 
 
 DELETE FROM editions
 WHERE book_id = 12345;
@@ -65,7 +65,7 @@ WHERE book_id = 12345;
 SELECT *
 FROM books;
 
-\echo *** Task 2.8 *** \echo
+\echo *** Task 2.8 *** 
 
 INSERT INTO books(book_id,title,subject_id) 
 VALUES(12345,'How I Insert',3443);
@@ -73,7 +73,7 @@ VALUES(12345,'How I Insert',3443);
    DETAIL: Key (subject_id)=(3443) is not present in table "subjects".
    COMMENT: subject_id must be first updated in the table "subjects" (if it doesnt exist already) and then in the "books" table*/
 
-\echo *** Task 2.9 *** \echo
+\echo *** Task 2.9 *** 
 
 ALTER TABLE books ADD CONSTRAINT hasSubject
 	CHECK (subject_id IS NOT NULL);

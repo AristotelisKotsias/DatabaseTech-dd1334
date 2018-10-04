@@ -1,5 +1,5 @@
 
-\echo *** Task 1.1 *** \echo
+\echo *** Task 1.1 *** 
 
 SELECT
   last_name,
@@ -11,7 +11,7 @@ WHERE author_id = (
   WHERE title = 'The Shining'
 );
 
-\echo *** Task 1.2 *** \echo
+\echo *** Task 1.2 *** 
 
 SELECT title
 FROM books
@@ -21,7 +21,7 @@ WHERE author_id = (
   WHERE first_name = 'Paulette' AND last_name = 'Bourgeois'
 );
 
-\echo *** Task 1.3 *** \echo
+\echo *** Task 1.3 *** 
 
 SELECT last_name, first_name
 FROM customers
@@ -43,7 +43,7 @@ WHERE customer_id IN (
 	)
 );
 
-\echo *** Task 1.4 *** \echo
+\echo *** Task 1.4 *** 
 
 SELECT title
 FROM books
@@ -60,7 +60,7 @@ WHERE book_id = (
 	)	
 );
 
--\echo *** Task 1.4 (2d solution) *** \echo
+\echo *** Task 1.4 (2d solution) *** 
 
 SELECT title
 FROM books
@@ -71,7 +71,7 @@ WHERE stock = (
 	FROM stock
 );	
 
-\echo *** Task 1.5 *** \echo
+\echo *** Task 1.5 *** 
 
 SELECT SUM(retail_price)
 FROM stock
@@ -80,7 +80,7 @@ FROM stock
 	INNER JOIN subjects ON books.subject_id = subjects.subject_id
 WHERE subject = 'Science Fiction';
 
-\echo *** Task 1.6 *** \echo
+\echo *** Task 1.6 *** 
 
 SELECT title
 FROM books
@@ -89,7 +89,7 @@ FROM books
 GROUP BY books.title
 HAVING COUNT(customer_id) = 2;			-- The HAVING clause is used because the WHERE keyword cannot be used with aggregate functions --
 
-\echo *** Task 1.7 *** \echo
+\echo *** Task 1.7 *** 
 
 --> TODO <--
 /*SELECT name, MAX(cost)
@@ -98,13 +98,13 @@ FROM publishers
 	INNER JOIN stock ON editions.isbn = stock.isbn
 GROUP BY publishers.name ORDER BY SUM(cost) DESC LIMIT 1;*/
 
-\echo *** Task 1.8 *** \echo
+\echo *** Task 1.8 *** 
 
 SELECT SUM(retail_price - cost)
 FROM shipments,stock
 WHERE shipments.isbn = stock.isbn;
 
-\echo *** Task 1.9 *** \echo
+\echo *** Task 1.9 *** 
 
 SELECT last_name, first_name
 FROM customers
@@ -115,7 +115,7 @@ FROM customers
 GROUP BY customers.last_name, customers.first_name
 HAVING COUNT(subjects.subject_id) > 2;
 
-\echo *** Task 1.10 *** \echo
+\echo *** Task 1.10 *** 
 
 SELECT subject
 FROM subjects

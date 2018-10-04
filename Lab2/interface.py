@@ -16,8 +16,6 @@ class DBContext:
         params = {'host':'nestor2.csc.kth.se', 'user':raw_input("Username: "), 'database':raw_input("Database: "), 'password':raw_input("Password: ")}
         self.conn = pgdb.connect(**params)
         self.menu = ["Select.", "Insert.", "Remove.", "Exit"]
-        # Here we create a cursor (see chap 9) and
-        # http://www.python.org/dev/peps/pep-0249/
         self.cur = self.conn.cursor()
 
     def print_menu(self):
@@ -69,16 +67,10 @@ class DBContext:
         # being defined and stored in the variable tables.
 
         tables = [x.strip() + " natural join " for x in raw_input("Choose table(s): ").split(",")]
-
-# Here we do some char pointer tricks to remove the extra " natural
-# join " (14 characters
         tables[len(tables)-1] = tables[len(tables)-1][0:len(tables[len(tables)-1])-14]
-# pring the result to the screen
         print tables
-# here columns becomes the string that you type at prompt for Choose columns.
         columns = raw_input("Choose column(s): ")
         print columns
-        #list comprehension building a list ready to be reduced into a string.
         filters = raw_input("Apply filters: ")
         # This will set query to the long string "SELECT columns FROM
         # tables WHERE filters;" The %s indicate that a string from a
@@ -96,8 +88,6 @@ class DBContext:
             print "  Bad input."
             return
         print(query)
-        # Here we do the select query at the cursor
-        # No errors are caught so this crashes horribly on malformed queries
         self.cur.execute(query)       
         self.print_answer()
 
