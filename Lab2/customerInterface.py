@@ -33,8 +33,7 @@ from sys import argv
 #  File "./customerInterface.py", line 68, in shipments  self.cur.execute(query) also mentioned above."
 #  The only problem is the codes need to be pgdb. instead of the pg. shown in my output 
 #  (I am not sure why they are different) so the code to catch is pgdb.DatabaseError.
-#
-#
+
 class DBContext:
 
     def __init__(self): #PG-connection setup
@@ -66,7 +65,7 @@ class DBContext:
     def shipments(self):
         #Test input is ID=671, fname='Chuck', lname='Brown'
         try: 
-            #cast to int since ID is integer.
+            #Check that input is integer
             ID = int(raw_input("customerID: ")) 
         except (NameError, ValueError, TypeError, SyntaxError):
             print("Non numerical ID. Try again...")
@@ -99,7 +98,7 @@ class DBContext:
                 print("Name %s %s does not match %s" % (fname,lname,ID)) #ID exists but first name or/and last name are incorrect
                 return
 
-        #isbn alone is ambigous because it's a primary key to 2 tables (stock,shipments)
+        #isbn alone is ambigous because it's a key to 2 tables (stock,shipments)
         #and for that reason it must be specified on which table the SQL should check
         query = """SELECT shipment_id,ship_date,shipments.isbn,title          
                    FROM Shipments                                   
