@@ -1,0 +1,75 @@
+(: Task 1 :)
+<title>Everest</title>
+<title>National Geographic's Mysteries of Egypt</title>
+
+(: Task 2 :)
+<movie director="Tokko">
+	<title>Doquissåpan, avsnitt 1</title>	
+	<title>Doquissåpan, avsnitt 2</title>
+	<title>Doquissåpan, avsnitt 4</title></movie>
+
+(: Task 3 :)
+<title>Enemy of the State</title>
+<title>Star Wars</title>
+<title>Au Revoir Les Enfants</title>
+<title>Pinocchio</title>
+<title>Doquissåpan, avsnitt 1</title>
+<title>Doquissåpan, avsnitt 2</title>
+<title>Doquissåpan, avsnitt 4</title>
+<title>The Fugitive</title>
+<title>MUPPET TREASURE ISLAND</title>
+<title>Yellow Submarine</title>
+
+(: Task 4 :)
+actor="Ford, Harrison"
+actor="Doqumenteriet2011"
+
+(: Task 5 :)
+<title>Seven</title>
+
+(: Task 6 :)
+Jones, Tommy Lee
+Ford, Harrison
+Heche, Anne
+Schwimmer, David
+Doqumenteriet2011
+
+(: Task 7 :)
+actor="Ford, Harrison"
+
+(: Task 8 :)
+Tokko
+
+(: Task 9 :)
+<title>Seven</title>
+
+(: Task 10 :)
+<genre genre="action"/>
+<title>The Fugitive</title>
+<title>Enemy of the State</title>
+<title>Star Wars</title>
+<genre genre="comedy"/>
+<title>Six Days Seven Nights</title>
+<title>Clerks</title>
+<genre genre="horror"/>
+<title>The Fear</title>
+<title>Seven</title>
+<genre genre="family"/>
+<title>MUPPET TREASURE ISLAND</title>
+<title>Pinocchio</title>
+<genre genre="drama"/>
+<title>2001: A Space Odyssey</title>
+<title>Contact</title>
+<genre genre="foreign"/>
+<title>La Femme Nikita</title>
+<title>Au Revoir Les Enfants</title>
+<genre genre="musical"/>
+<title>Yellow Submarine</title>
+<title>Carmen</title>
+<genre genre="special"/>
+<title>National Geographic's Mysteries of Egypt</title>
+<title>Everest</title>
+<genre genre="documentary"/>
+<title>Doquissåpan, avsnitt 1</title>
+<title>Doquissåpan, avsnitt 2</title>
+<title>Doquissåpan, avsnitt 4</title>

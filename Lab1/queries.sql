@@ -87,16 +87,17 @@ FROM books
 	INNER JOIN editions ON books.book_id = editions.book_id
 	INNER JOIN shipments ON editions.isbn = shipments.isbn
 GROUP BY books.title
-HAVING COUNT(customer_id) = 2;			-- The HAVING clause is used because the WHERE keyword cannot be used with aggregate functions --
+HAVING COUNT(customer_id) = 2;			
 
 \echo *** Task 1.7 *** 
 
 --> TODO <--
-/*SELECT name, MAX(cost)
+/*SELECT name, max(cost)
 FROM publishers
 	INNER JOIN editions ON publishers.publisher_id = editions.publisher_id
 	INNER JOIN stock ON editions.isbn = stock.isbn
-GROUP BY publishers.name ORDER BY SUM(cost) DESC LIMIT 1;*/
+GROUP BY publishers.name 
+ORDER BY SUM(cost)*/
 
 \echo *** Task 1.8 *** 
 

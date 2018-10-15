@@ -31,10 +31,9 @@ INSERT INTO books(book_id,title)
 VALUES (12345, 'How I Insert');
 INSERT INTO editions(isbn, book_id, edition, publisher_id, publication_date)
 VALUES ('5555', 12345, 1, 59, '2012-12-02');
+
 SELECT *
 FROM books;
-
-/*Author and subject can be NULL*/
 
 \echo *** Task 2.5 *** 
 /*SELECT *
@@ -84,8 +83,9 @@ INSERT INTO subjects(subject_id)
 VALUES(99);
 INSERT INTO books(book_id, title,subject_id)
 VALUES (12321,'test',99);
-SELECT *
-/*FROM subjects;
+
+/*SELECT *
+FROM subjects;
 SELECT *
 FROM books;*/
 

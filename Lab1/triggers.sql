@@ -1,4 +1,4 @@
-DROP FUNCTION decstock() CASCADE;
+--DROP FUNCTION decstock() CASCADE;
 
 --Creating the trigger function
 CREATE FUNCTION decstock() RETURNS trigger AS $pname$
@@ -18,10 +18,10 @@ CREATE FUNCTION decstock() RETURNS trigger AS $pname$
 $pname$ LANGUAGE plpgsql;
 
 --Creating the trigger
-CREATE TRIGGER stockTrigger
-	AFTER INSERT ON shipments
-	FOR EACH ROW 
-	EXECUTE PROCEDURE decstock();
+CREATE TRIGGER stockTrigger --Create trigger
+	BEFORE INSERT ON shipments --Clause to indicate that the trigger uses DB state BEFORE the trig. event
+	FOR EACH ROW --Trigger executes for every row
+	EXECUTE PROCEDURE decstock(); --Action 
 
 \echo *** Display stock table before making shipments *** 
 
@@ -47,7 +47,7 @@ WHERE shipment_id > 1999;
 SELECT *
 FROM stock;
 
-\echo *** Restote database to its original state ***
+\echo *** Restore database to its original state ***
 
 DELETE FROM shipments
 WHERE shipment_id > 1999;

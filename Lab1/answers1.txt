@@ -1,0 +1,79 @@
+*** Task 1.1 ***
+ last_name | first_name 
+-----------+------------
+ King      | Stephen
+(1 row)
+
+*** Task 1.2 ***
+        title         
+----------------------
+ Franklin in the Dark
+(1 row)
+
+*** Task 1.3 ***
+ last_name | first_name 
+-----------+------------
+ Jackson   | Annie
+ Gould     | Ed
+ King      | Jenny
+ Morrill   | Royce
+ Black     | Jean
+ Anderson  | Jonathan
+ Brown     | Chuck
+ Holloway  | Adam
+ Becker    | Owen
+(9 rows)
+
+*** Task 1.4 ***
+ title 
+-------
+ Dune
+(1 row)
+
+*** Task 1.4 (2d solution) ***
+ title 
+-------
+ Dune
+(1 row)
+
+*** Task 1.5 ***
+  sum   
+--------
+ 137.80
+(1 row)
+
+*** Task 1.6 ***
+         title         
+-----------------------
+ Little Women
+ Dune
+ 2001: A Space Odyssey
+ The Velveteen Rabbit
+(4 rows)
+
+*** Task 1.7 ***
+*** Task 1.8 ***
+  sum   
+--------
+ 136.15
+(1 row)
+
+*** Task 1.9 ***
+ last_name | first_name 
+-----------+------------
+ Jackson   | Annie
+(1 row)
+
+*** Task 1.10 ***
+    subject    
+---------------
+ Business
+ Cooking
+ Entertainment
+ History
+ Mystery
+ Poetry
+ Religion
+ Romance
+ Science
+(9 rows)

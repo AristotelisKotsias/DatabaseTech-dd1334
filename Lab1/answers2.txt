@@ -1,0 +1,164 @@
+*** Task 2.1 ***
+
+CREATE VIEW
+DROP VIEW
+*** Task 2.2 ***
+
+psql:task2.sql:13: ERROR:  insert or update on table "editions" violates foreign key constraint "editions_book_id_fkey"
+DETAIL:  Key (book_id)=(12345) is not present in table "books".
+*** Task 2.3 ***
+
+psql:task2.sql:22: ERROR:  new row for relation "editions" violates check constraint "integrity"
+DETAIL:  Failing row contains (5555, null, null, null, null).
+*** Task 2.4 ***
+
+INSERT 0 1
+INSERT 0 1
+ book_id |            title            | author_id | subject_id 
+---------+-----------------------------+-----------+------------
+    7808 | The Shining                 |      4156 |          9
+    4513 | Dune                        |      1866 |         15
+    4267 | 2001: A Space Odyssey       |      2001 |         15
+    1608 | The Cat in the Hat          |      1809 |          2
+    1590 | Bartholomew and the Oobleck |      1809 |          2
+   25908 | Franklin in the Dark        |     15990 |          2
+    1501 | Goodnight Moon              |      2031 |          2
+     190 | Little Women                |        16 |          6
+    1234 | The Velveteen Rabbit        |     25041 |          3
+    2038 | Dynamic Anatomy             |      1644 |          0
+     156 | The Tell-Tale Heart         |       115 |          9
+   41473 | Programming Python          |      7805 |          4
+   41477 | Learning Python             |      7805 |          4
+   41478 | Perl Cookbook               |      7806 |          4
+   41472 | Practical PostgreSQL        |      1212 |          4
+   12345 | How I Insert                |           |           
+(16 rows)
+
+*** Task 2.5 ***
+
+UPDATE 1
+*** Task 2.6 ***
+
+psql:task2.sql:53: ERROR:  update or delete on table "books" violates foreign key constraint "editions_book_id_fkey" on table "editions"
+DETAIL:  Key (book_id)=(12345) is still referenced from table "editions".
+*** Task 2.7 ***
+
+DELETE 1
+DELETE 1
+ book_id |            title            | author_id | subject_id 
+---------+-----------------------------+-----------+------------
+    7808 | The Shining                 |      4156 |          9
+    4513 | Dune                        |      1866 |         15
+    4267 | 2001: A Space Odyssey       |      2001 |         15
+    1608 | The Cat in the Hat          |      1809 |          2
+    1590 | Bartholomew and the Oobleck |      1809 |          2
+   25908 | Franklin in the Dark        |     15990 |          2
+    1501 | Goodnight Moon              |      2031 |          2
+     190 | Little Women                |        16 |          6
+    1234 | The Velveteen Rabbit        |     25041 |          3
+    2038 | Dynamic Anatomy             |      1644 |          0
+     156 | The Tell-Tale Heart         |       115 |          9
+   41473 | Programming Python          |      7805 |          4
+   41477 | Learning Python             |      7805 |          4
+   41478 | Perl Cookbook               |      7806 |          4
+   41472 | Practical PostgreSQL        |      1212 |          4
+(15 rows)
+
+*** Task 2.8 ***
+
+psql:task2.sql:71: ERROR:  insert or update on table "books" violates foreign key constraint "books_subject_id_fkey"
+DETAIL:  Key (subject_id)=(3443) is not present in table "subjects".
+*** Task 2.9 ***
+
+ALTER TABLE
+A book can be inserted with NULL author_id and NOT NULL subject_id
+
+INSERT 0 1
+INSERT 0 1
+ subject_id |     subject     |     location     
+------------+-----------------+------------------
+          0 | Arts            | Creativity St
+          1 | Business        | Productivity Ave
+          2 | Childrens Books | Kids Ct
+          3 | Classics        | Academic Rd
+          4 | Computers       | Productivity Ave
+          5 | Cooking         | Creativity St
+          6 | Drama           | Main St
+          7 | Entertainment   | Main St
+          8 | History         | Academic Rd
+          9 | Horror          | Black Raven Dr
+         10 | Mystery         | Black Raven Dr
+         11 | Poetry          | Sunset Dr
+         12 | Religion        | 
+         13 | Romance         | Main St
+         14 | Science         | Productivity Ave
+         15 | Science Fiction | Main St
+         99 |                 | 
+(17 rows)
+
+ book_id |            title            | author_id | subject_id 
+---------+-----------------------------+-----------+------------
+    7808 | The Shining                 |      4156 |          9
+    4513 | Dune                        |      1866 |         15
+    4267 | 2001: A Space Odyssey       |      2001 |         15
+    1608 | The Cat in the Hat          |      1809 |          2
+    1590 | Bartholomew and the Oobleck |      1809 |          2
+   25908 | Franklin in the Dark        |     15990 |          2
+    1501 | Goodnight Moon              |      2031 |          2
+     190 | Little Women                |        16 |          6
+    1234 | The Velveteen Rabbit        |     25041 |          3
+    2038 | Dynamic Anatomy             |      1644 |          0
+     156 | The Tell-Tale Heart         |       115 |          9
+   41473 | Programming Python          |      7805 |          4
+   41477 | Learning Python             |      7805 |          4
+   41478 | Perl Cookbook               |      7806 |          4
+   41472 | Practical PostgreSQL        |      1212 |          4
+   12321 | test                        |           |         99
+(16 rows)
+
+DELETE 1
+DELETE 1
+ subject_id |     subject     |     location     
+------------+-----------------+------------------
+          0 | Arts            | Creativity St
+          1 | Business        | Productivity Ave
+          2 | Childrens Books | Kids Ct
+          3 | Classics        | Academic Rd
+          4 | Computers       | Productivity Ave
+          5 | Cooking         | Creativity St
+          6 | Drama           | Main St
+          7 | Entertainment   | Main St
+          8 | History         | Academic Rd
+          9 | Horror          | Black Raven Dr
+         10 | Mystery         | Black Raven Dr
+         11 | Poetry          | Sunset Dr
+         12 | Religion        | 
+         13 | Romance         | Main St
+         14 | Science         | Productivity Ave
+         15 | Science Fiction | Main St
+(16 rows)
+
+ book_id |            title            | author_id | subject_id 
+---------+-----------------------------+-----------+------------
+    7808 | The Shining                 |      4156 |          9
+    4513 | Dune                        |      1866 |         15
+    4267 | 2001: A Space Odyssey       |      2001 |         15
+    1608 | The Cat in the Hat          |      1809 |          2
+    1590 | Bartholomew and the Oobleck |      1809 |          2
+   25908 | Franklin in the Dark        |     15990 |          2
+    1501 | Goodnight Moon              |      2031 |          2
+     190 | Little Women                |        16 |          6
+    1234 | The Velveteen Rabbit        |     25041 |          3
+    2038 | Dynamic Anatomy             |      1644 |          0
+     156 | The Tell-Tale Heart         |       115 |          9
+   41473 | Programming Python          |      7805 |          4
+   41477 | Learning Python             |      7805 |          4
+   41478 | Perl Cookbook               |      7806 |          4
+   41472 | Practical PostgreSQL        |      1212 |          4
+(15 rows)
+
+A book cannot be inserted with NULL subject_id
+
+psql:task2.sql:107: ERROR:  new row for relation "books" violates check constraint "hassubject"
+DETAIL:  Failing row contains (12321, test, null, null).
+ALTER TABLE
